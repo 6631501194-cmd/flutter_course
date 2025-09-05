@@ -8,21 +8,41 @@ class InputDemo extends StatefulWidget {
 }
 
 class _InputDemoState extends State<InputDemo> {
+  // state variable
   String message = '';
+  TextEditingController tcName = TextEditingController();
+
+  // functions
+  void updateText() {
+    setState(() {
+      message = tcName.text;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Input Demo")),
       body: Column(
         children: [
-          TextField(
-            onChanged: (String txt) {
-              // debugPrint(txt);
-              setState(() {
-                message = txt;
-              });
-            },
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: tcName,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Enter your name",
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    tcName.clear();
+                  },
+                  icon: Icon(Icons.clear),
+                ),
+              ),
+            ),
           ),
+          ElevatedButton(onPressed: updateText, child: Text('OK')),
+          SizedBox(height: 16),
           Text(message),
         ],
       ),
